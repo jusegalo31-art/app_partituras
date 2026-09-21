@@ -273,6 +273,7 @@ def process_score_pdf(
     font_scale: float = 1.0,
     add_chords: bool = False,
     custom_chords: Optional[List[str]] = None,
+    all_white_circles: bool = False,
 ) -> Tuple[bytes, Dict[str, Any]]:
     """
     Procesa el archivo PDF de la partitura:
@@ -390,9 +391,14 @@ def process_score_pdf(
             shape = page.new_shape()
             shape.draw_oval(oval_rect)
             
-            border_width = 0.4 if font_scale <= 1.2 else 0.55
-            if n["is_filled"]:
-                # Nota negra: Fondo negro, texto blanco
+            border_width = 0.5 if font_scale <= 1.2 else 0.7
+            if all_white_circles:
+                # Modo Alto Contraste / Lectura a Distancia:
+                # Todos los círculos con fondo blanco, borde negro nítido y letras negras
+                shape.finish(fill=(1.0, 1.0, 1.0), color=(0.0, 0.0, 0.0), width=border_width)
+                text_color = (0.0, 0.0, 0.0)
+            elif n["is_filled"]:
+                # Nota negra original: Fondo negro, texto blanco
                 # Borde blanco sutil para dar separación y nitidez cuando dos notas se superponen
                 stroke_color = (1.0, 1.0, 1.0) if font_scale > 1.15 else (0.0, 0.0, 0.0)
                 shape.finish(fill=(0.0, 0.0, 0.0), color=stroke_color, width=border_width)

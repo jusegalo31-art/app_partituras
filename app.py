@@ -321,6 +321,14 @@ with st.sidebar:
     if "custom_slider" not in locals():
         font_scale = size_scale_map[size_preset]
     
+    white_circles_toggle = st.toggle(
+        "⚪ Círculos Blancos con Letras Negras",
+        value=False,
+        help="Pone todos los círculos en blanco con borde y letras negras para mayor visualización de lejos en atril o tablet. Al desactivarlo, vuelve al diseño original."
+    )
+    if white_circles_toggle:
+        st.info("💡 **Modo Alto Contraste:** Círculos en blanco con letras negras nítidas para máxima legibilidad.")
+    
     st.markdown("---")
     st.markdown("### 🎸 Acordes (Cifrado Americano)")
     
@@ -461,9 +469,10 @@ elif "📄 Partitura de Muestra" in source_mode:
 if pdf_bytes is not None:
     # Título visualmente amigable para el aviso
     clean_display = format_score_title(Path(file_source_name)) if file_source_name.startswith("himno_") else file_source_name
+    contrast_notice = " · ⚪ <strong>Modo:</strong> Círculos blancos con letras negras" if white_circles_toggle else ""
     st.markdown(f"""
     <div class="notice-box">
-        ✅ <strong>Partitura activa:</strong> <code>{clean_display}</code> ({file_source_name}) — Tonalidad original: <strong>{key_orig}</strong> ➔ Destino: <strong>{selected_key}</strong> ({interval_label}).
+        ✅ <strong>Partitura activa:</strong> <code>{clean_display}</code> ({file_source_name}) — Tonalidad original: <strong>{key_orig}</strong> ➔ Destino: <strong>{selected_key}</strong> ({interval_label}){contrast_notice}.
     </div>
     """, unsafe_allow_html=True)
     
@@ -477,7 +486,8 @@ if pdf_bytes is not None:
                 notation=notation_code,
                 font_scale=font_scale,
                 add_chords=add_chords,
-                custom_chords=custom_chords
+                custom_chords=custom_chords,
+                all_white_circles=white_circles_toggle
             )
         except Exception as e:
             st.error(f"Error al procesar el PDF: {str(e)}")
@@ -510,10 +520,11 @@ if pdf_bytes is not None:
         </div>
         """, unsafe_allow_html=True)
     with m4:
+        tag_mode = " · ⚪ Blanco/Negro" if white_circles_toggle else ""
         st.markdown(f"""
         <div class="stat-card">
             <div class="val">{size_preset}</div>
-            <div class="lbl">Tamaño Cifrado ({font_scale:.2f}x)</div>
+            <div class="lbl">Tamaño Cifrado ({font_scale:.2f}x{tag_mode})</div>
         </div>
         """, unsafe_allow_html=True)
 

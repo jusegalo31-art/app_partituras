@@ -20,6 +20,7 @@ Aplicación web Full Stack moderna, ligera y funcional diseñada para transcribi
 
 3. **Accesibilidad Visual para Tablets & Atril:**
    - **Tamaño por defecto:** *Muy Grande (1.65x)* para máxima visibilidad inmediata en atriles y tablets.
+   - **Modo Alto Contraste (Círculos Blancos con Letras Negras):** Botón interruptor para transformar todos los círculos a fondo blanco con borde y letras negras nítidas para lectura a gran distancia, volviendo al diseño original al desactivarlo.
    - Opciones adicionales de tamaño: *Normal (1.0x)*, *Grande (1.35x)* y deslizador continuo **hasta 4.00x**.
    - Prioridad estricta de capas: la **voz principal (notas superiores)** se dibuja siempre en la capa superior sin quedar tapada por notas de acompañamiento.
    - Tipografía adaptativa anti-empaste con márgenes internos ampliados.
